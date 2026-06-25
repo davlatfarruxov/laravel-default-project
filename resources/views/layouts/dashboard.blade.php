@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="theme-color" content="#0b0d12" id="theme-color-meta">
+    <meta name="theme-color" content="#15100c" id="theme-color-meta">
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     {{-- Apply saved theme ASAP to prevent flash of wrong theme --}}
@@ -15,7 +15,7 @@
                 document.documentElement.classList.add('light');
                 document.addEventListener('DOMContentLoaded', function() {
                     var m = document.getElementById('theme-color-meta');
-                    if (m) m.content = '#f0f2f7';
+                    if (m) m.content = '#fff8f3';
                 });
             }
         })();
@@ -61,7 +61,7 @@
 
         .scroll-area {
             scrollbar-width: thin;
-            scrollbar-color: #252f42 transparent;
+            scrollbar-color: #3a2a1f transparent;
         }
 
         .scroll-area::-webkit-scrollbar {
@@ -74,7 +74,7 @@
         }
 
         .scroll-area::-webkit-scrollbar-thumb {
-            background: #252f42;
+            background: #3a2a1f;
             border-radius: 99px;
             cursor: pointer;
         }
@@ -151,10 +151,13 @@
 
         /* ---------- Reusable components ---------- */
         .card {
-            background: var(--bg-raised);
+            position: relative;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 40%),
+                var(--bg-raised);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-lg);
-            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow-sm);
         }
 
         .card-hover {
@@ -163,9 +166,9 @@
         }
 
         .card-hover:hover {
-            border-color: var(--border-strong);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.5);
+            border-color: var(--accent-border);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md), var(--shadow-glow);
         }
 
         .btn-primary,
@@ -208,7 +211,7 @@
         }
 
         .btn-secondary:hover {
-            background: #2d3a52;
+            background: #3a2a1f;
         }
 
         .btn-ghost {
@@ -546,11 +549,11 @@
 
         /* 17 ─ Background decoration blobs */
         html.light .bg-deco-purple {
-            background: rgba(124, 58, 237, 0.05);
+            background: rgba(248, 112, 79, 0.05);
         }
 
         html.light .bg-deco-blue {
-            background: rgba(37, 99, 235, 0.06);
+            background: rgba(245, 158, 11, 0.06);
         }
 
         /* 18 ─ Theme toggle icons */
@@ -826,8 +829,8 @@
 
             {{-- Background decoration blobs --}}
             <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
-                <div class="absolute top-[-15%] left-[-5%] w-[28rem] h-[28rem] rounded-full blur-[120px] bg-deco-blue" style="background: rgba(59, 130, 246, 0.07);"></div>
-                <div class="absolute bottom-[-15%] right-[-5%] w-[32rem] h-[32rem] rounded-full blur-[140px] bg-deco-purple" style="background: rgba(129, 140, 248, 0.05);"></div>
+                <div class="absolute top-[-15%] left-[-5%] w-[28rem] h-[28rem] rounded-full blur-[120px] bg-deco-blue" style="background: rgba(248, 112, 79, 0.07);"></div>
+                <div class="absolute bottom-[-15%] right-[-5%] w-[32rem] h-[32rem] rounded-full blur-[140px] bg-deco-purple" style="background: rgba(245, 158, 11, 0.05);"></div>
             </div>
 
             {{-- Header --}}
@@ -1079,7 +1082,7 @@
             var isLight = html.classList.toggle('light');
             localStorage.setItem('marketingpro_theme', isLight ? 'light' : 'dark');
             var meta = document.getElementById('theme-color-meta');
-            if (meta) meta.content = isLight ? '#f0f2f7' : '#0b0d12';
+            if (meta) meta.content = isLight ? '#fff8f3' : '#15100c';
         }
     </script>
 

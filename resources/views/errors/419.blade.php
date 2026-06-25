@@ -5,11 +5,11 @@
 @section('content')
 <div class="min-h-screen w-full flex items-center justify-center relative overflow-hidden" style="background: var(--bg-base);">
 
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] h-[30rem] rounded-full blur-[120px] pointer-events-none" style="background: rgba(129, 140, 248, 0.10);"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] h-[30rem] rounded-full blur-[120px] pointer-events-none" style="background: rgba(245, 158, 11, 0.10);"></div>
 
     <div class="relative z-10 text-center px-4 max-w-lg mx-auto flex flex-col items-center py-20 page-enter">
 
-        <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-6" style="background: rgba(129, 140, 248, 0.10); border: 1px solid rgba(129, 140, 248, 0.25); color: var(--accent-alt);">
+        <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-6" style="background: rgba(245, 158, 11, 0.10); border: 1px solid rgba(245, 158, 11, 0.25); color: var(--accent-alt);">
             <x-lucide-history class="w-10 h-10" />
         </div>
 

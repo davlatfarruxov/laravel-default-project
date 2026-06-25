@@ -60,8 +60,8 @@
                         <p class="text-xs font-semibold uppercase tracking-widest text-[var(--text-muted)]">Kampaniyalar</p>
                         <p class="mt-2 text-3xl font-extrabold text-white">{{ \App\Models\Campaign::count() }}</p>
                     </div>
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(129,140,248,0.10); border: 1px solid rgba(129,140,248,0.25);">
-                        <x-lucide-megaphone class="w-5 h-5 text-indigo-400" />
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(245, 158, 11,0.10); border: 1px solid rgba(245, 158, 11,0.25);">
+                        <x-lucide-megaphone class="w-5 h-5" style="color: var(--accent-alt);" />
                     </div>
                 </div>
                 <a href="{{ route('campaigns.index') }}" class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--accent-hover)] hover:text-[var(--accent-alt)] transition-colors">
@@ -143,8 +143,8 @@
                         <p class="text-xs font-semibold uppercase tracking-widest text-[var(--text-muted)]">Rollar</p>
                         <p class="mt-2 text-3xl font-extrabold text-white">{{ \Spatie\Permission\Models\Role::count() }}</p>
                     </div>
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(129,140,248,0.10); border: 1px solid rgba(129,140,248,0.25);">
-                        <x-lucide-shield-check class="w-5 h-5 text-indigo-400" />
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(245, 158, 11,0.10); border: 1px solid rgba(245, 158, 11,0.25);">
+                        <x-lucide-shield-check class="w-5 h-5" style="color: var(--accent-alt);" />
                     </div>
                 </div>
                 <a href="{{ route('roles.index') }}" class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--accent-hover)] hover:text-[var(--accent-alt)] transition-colors">

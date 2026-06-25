@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="theme-color" content="#0b0d12" id="theme-color-meta">
+    <meta name="theme-color" content="#15100c" id="theme-color-meta">
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     {{-- Apply saved theme immediately to prevent FOUC --}}
@@ -15,7 +15,7 @@
                 document.documentElement.classList.add('light');
                 document.addEventListener('DOMContentLoaded', function() {
                     var m = document.getElementById('theme-color-meta');
-                    if (m) m.content = '#f0f2f7';
+                    if (m) m.content = '#fff8f3';
                 });
             }
         })();
@@ -100,8 +100,8 @@
         }
 
         .btn-secondary:hover {
-            background: #2d3a52;
-            border-color: rgba(148, 163, 184, 0.22);
+            background: #3a2a1f;
+            border-color: var(--accent-border);
             transform: translateY(-1px);
         }
 

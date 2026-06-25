@@ -123,7 +123,7 @@
                 <tbody class="divide-y divide-[var(--border-subtle)] text-sm">
                     @forelse($leads as $lead)
                     @php
-                        $avatarColors = ['bg-blue-500/20 text-blue-400', 'bg-indigo-500/20 text-indigo-400', 'bg-violet-500/20 text-violet-400', 'bg-sky-500/20 text-sky-400'];
+                        $avatarColors = ['bg-rose-500/20 text-rose-400', 'bg-orange-500/20 text-orange-400', 'bg-amber-500/20 text-amber-400', 'bg-pink-500/20 text-pink-400'];
                         $avatarClass = $avatarColors[$lead->id % count($avatarColors)];
                     @endphp
                     <tr class="transition-colors hover:bg-white/[0.02]">
