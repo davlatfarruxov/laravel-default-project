@@ -22,6 +22,8 @@ return [
     'all_statuses'   => 'All statuses',
     'yes'            => 'Yes',
 
+    'collapse'       => 'Collapse',
+    'expand'         => 'Expand',
     'language'       => 'Language',
     'theme_toggle'   => 'Toggle light/dark mode',
 
@@ -34,4 +36,5 @@ return [
     'are_you_sure'   => 'Are you sure you want to delete',
 
     'currency'       => 'UZS',
+    'rights'         => 'All rights reserved.',
 ];

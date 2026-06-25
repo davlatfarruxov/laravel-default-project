@@ -675,21 +675,21 @@
                     </div>
 
                     <div class="mt-5 text-center">
-                        <h3 id="logout-title" class="text-xl font-bold text-white tracking-tight">Chiqishni tasdiqlash</h3>
+                        <h3 id="logout-title" class="text-xl font-bold text-white tracking-tight">{{ __('common.logout_title') }}</h3>
                         <p class="mt-2 text-sm text-[var(--text-secondary)] leading-relaxed">
-                            Hisobingizdan chiqmoqchimisiz?
+                            {{ __('common.logout_text') }}
                         </p>
                     </div>
 
                     <div class="mt-7 flex flex-col sm:flex-row gap-3">
                         <button type="button" @click="logoutModalOpen = false" class="btn-secondary flex-1 cursor-pointer">
-                            Bekor qilish
+                            {{ __('common.cancel') }}
                         </button>
                         <form action="{{ route('logout') ?? '#' }}" method="POST" class="flex-1">
                             @csrf
                             <button type="submit" class="btn-primary w-full cursor-pointer">
                                 <x-lucide-log-out class="w-4 h-4" />
-                                Ha, chiqish
+                                {{ __('common.logout_yes') }}
                             </button>
                         </form>
                     </div>
@@ -735,10 +735,10 @@
                 <div>
                     <div class="space-y-1">
                         <a href="{{ route('dashboard.index') }}"
-                            title="Boshqaruv paneli"
+                            title="{{ __('nav.dashboard') }}"
                             class="nav-link {{ request()->routeIs('dashboard.*') ? 'active' : '' }}">
                             <x-lucide-layout-dashboard class="nav-icon" />
-                            <span class="sidebar-label">Boshqaruv paneli</span>
+                            <span class="sidebar-label">{{ __('nav.dashboard') }}</span>
                         </a>
                     </div>
                 </div>
@@ -746,55 +746,80 @@
                 {{-- Marketing --}}
                 @canany(['leads.view', 'campaigns.view', 'analytics.view'])
                 <div>
-                    <h3 class="nav-heading">Marketing</h3>
+                    <h3 class="nav-heading">{{ __('nav.marketing') }}</h3>
                     <div class="space-y-1">
                         @can('leads.view')
                         <a href="{{ route('leads.index') }}"
-                            title="Mijozlar"
+                            title="{{ __('nav.leads') }}"
                             class="nav-link {{ request()->routeIs('leads.*') ? 'active' : '' }}">
                             <x-lucide-contact class="nav-icon" />
-                            <span class="sidebar-label">Mijozlar</span>
+                            <span class="sidebar-label">{{ __('nav.leads') }}</span>
                         </a>
                         @endcan
                         @can('campaigns.view')
                         <a href="{{ route('campaigns.index') }}"
-                            title="Kampaniyalar"
+                            title="{{ __('nav.campaigns') }}"
                             class="nav-link {{ request()->routeIs('campaigns.*') ? 'active' : '' }}">
                             <x-lucide-megaphone class="nav-icon" />
-                            <span class="sidebar-label">Kampaniyalar</span>
+                            <span class="sidebar-label">{{ __('nav.campaigns') }}</span>
                         </a>
                         @endcan
                         @can('analytics.view')
                         <a href="{{ route('analytics.index') }}"
-                            title="Tahlil"
+                            title="{{ __('nav.analytics') }}"
                             class="nav-link {{ request()->routeIs('analytics.*') ? 'active' : '' }}">
                             <x-lucide-bar-chart-3 class="nav-icon" />
-                            <span class="sidebar-label">Tahlil</span>
+                            <span class="sidebar-label">{{ __('nav.analytics') }}</span>
                         </a>
                         @endcan
                     </div>
                 </div>
                 @endcanany
 
+                {{-- Resources — barcha foydalanuvchilar uchun --}}
+                <div>
+                    <h3 class="nav-heading">{{ __('info.section') }}</h3>
+                    <div class="space-y-1">
+                        <a href="{{ route('info.tips') }}"
+                            title="{{ __('info.tips_nav') }}"
+                            class="nav-link {{ request()->routeIs('info.tips') ? 'active' : '' }}">
+                            <x-lucide-lightbulb class="nav-icon" />
+                            <span class="sidebar-label">{{ __('info.tips_nav') }}</span>
+                        </a>
+                        <a href="{{ route('info.faq') }}"
+                            title="{{ __('info.faq_nav') }}"
+                            class="nav-link {{ request()->routeIs('info.faq') ? 'active' : '' }}">
+                            <x-lucide-help-circle class="nav-icon" />
+                            <span class="sidebar-label">{{ __('info.faq_nav') }}</span>
+                        </a>
+                        <a href="{{ route('info.news') }}"
+                            title="{{ __('info.news_nav') }}"
+                            class="nav-link {{ request()->routeIs('info.news') ? 'active' : '' }}">
+                            <x-lucide-newspaper class="nav-icon" />
+                            <span class="sidebar-label">{{ __('info.news_nav') }}</span>
+                        </a>
+                    </div>
+                </div>
+
                 {{-- Administration --}}
                 @canany(['roles.view', 'users.view'])
                 <div>
-                    <h3 class="nav-heading">Boshqaruv</h3>
+                    <h3 class="nav-heading">{{ __('nav.administration') }}</h3>
                     <div class="space-y-1">
                         @can('roles.view')
                         <a href="{{ route('roles.index') }}"
-                            title="Rollar"
+                            title="{{ __('nav.roles') }}"
                             class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
                             <x-lucide-shield-check class="nav-icon" />
-                            <span class="sidebar-label">Rollar</span>
+                            <span class="sidebar-label">{{ __('nav.roles') }}</span>
                         </a>
                         @endcan
                         @can('users.view')
                         <a href="{{ route('users.index') }}"
-                            title="Foydalanuvchilar"
+                            title="{{ __('nav.users') }}"
                             class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
                             <x-lucide-user-cog class="nav-icon" />
-                            <span class="sidebar-label">Foydalanuvchilar</span>
+                            <span class="sidebar-label">{{ __('nav.users') }}</span>
                         </a>
                         @endcan
                     </div>
@@ -844,7 +869,7 @@
                     {{-- Desktop: collapse / expand sidebar --}}
                     <button @click="toggleSidebar()"
                         class="hidden md:flex items-center justify-center p-2 rounded-xl text-[var(--text-secondary)] hover:text-white hover:bg-white/5 border border-transparent hover:border-[var(--border-subtle)] transition-colors cursor-pointer flex-shrink-0"
-                        :title="sidebarOpen ? 'Yopish' : 'Ochish'"
+                        :title="sidebarOpen ? @js(__('common.collapse')) : @js(__('common.expand'))"
                         aria-label="Toggle sidebar">
                         <x-lucide-menu class="w-5 h-5" />
                     </button>
@@ -892,8 +917,8 @@
                             style="display: none;">
 
                             <div class="px-4 py-3.5 border-b border-[var(--border-subtle)] flex justify-between items-center">
-                                <h3 class="text-sm font-bold text-white">Bildirishnomalar</h3>
-                                <span class="badge badge-accent cursor-pointer">2 yangi</span>
+                                <h3 class="text-sm font-bold text-white">{{ __('nav.notifications') }}</h3>
+                                <span class="badge badge-accent cursor-pointer">{{ __('nav.new_badge', ['count' => 2]) }}</span>
                             </div>
 
                             <div class="max-h-80 overflow-y-auto scroll-area">
@@ -913,23 +938,48 @@
                                     </div>
                                     <div class="min-w-0">
                                         <p class="text-sm text-gray-200 font-medium group-hover:text-white transition-colors">Tizim yangilanishi mavjud</p>
-                                        <p class="text-xs text-[var(--text-muted)] mt-1">Yangi versiya: v2.0 — o'zgarishlarni ko'ring.</p>
+                                        <p class="text-xs text-[var(--text-muted)] mt-1">Yangi versiya: v3.0 — o'zgarishlarni ko'ring.</p>
                                         <p class="text-[0.68rem] text-[var(--text-muted)] mt-1.5 font-mono">1 soat oldin</p>
                                     </div>
                                 </a>
                             </div>
 
                             <div class="px-4 py-2.5 border-t border-[var(--border-subtle)] bg-[var(--bg-surface)]">
-                                <a href="#" class="text-xs font-semibold text-[var(--accent-hover)] hover:text-[var(--accent-alt)] transition-colors cursor-pointer">Barchasini ko'rish</a>
+                                <a href="#" class="text-xs font-semibold text-[var(--accent-hover)] hover:text-[var(--accent-alt)] transition-colors cursor-pointer">{{ __('common.view_all') }}</a>
                             </div>
+                        </div>
+                    </div>
+
+                    {{-- Language switcher --}}
+                    <div class="relative" x-data="{ langOpen: false }">
+                        <button @click="langOpen = !langOpen" @click.away="langOpen = false"
+                            class="flex items-center gap-1.5 p-2.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xl border border-transparent hover:border-[var(--border-subtle)] transition-colors cursor-pointer"
+                            aria-label="{{ __('common.language') }}" title="{{ __('common.language') }}">
+                            <x-lucide-languages class="w-5 h-5" />
+                            <span class="hidden sm:block text-xs font-bold uppercase">{{ app()->getLocale() }}</span>
+                        </button>
+                        <div x-show="langOpen" x-cloak
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 scale-95 translate-y-2"
+                            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                            class="absolute right-0 mt-3 w-36 bg-[var(--bg-raised)] border border-[var(--border-strong)] rounded-[var(--radius-lg)] shadow-2xl shadow-black/60 py-1.5 z-50"
+                            style="display: none;">
+                            @foreach(['uz' => 'O\'zbekcha', 'en' => 'English'] as $code => $label)
+                            <a href="{{ route('locale.switch', $code) }}"
+                                class="flex items-center justify-between gap-3 px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer
+                                    {{ app()->getLocale() === $code ? 'text-[var(--accent-hover)]' : 'text-[var(--text-secondary)] hover:bg-white/[0.04] hover:text-white' }}">
+                                <span>{{ $label }}</span>
+                                @if(app()->getLocale() === $code)<x-lucide-check class="w-4 h-4" />@endif
+                            </a>
+                            @endforeach
                         </div>
                     </div>
 
                     {{-- Theme Toggle --}}
                     <button onclick="toggleTheme()"
                         class="p-2.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xl border border-transparent hover:border-[var(--border-subtle)] transition-colors cursor-pointer"
-                        aria-label="Toggle light/dark mode"
-                        title="Toggle light/dark mode">
+                        aria-label="{{ __('common.theme_toggle') }}"
+                        title="{{ __('common.theme_toggle') }}">
                         <x-lucide-sun class="w-5 h-5 theme-icon-dark" />
                         <x-lucide-moon class="w-5 h-5 theme-icon-light" />
                     </button>
@@ -964,7 +1014,7 @@
                             <div class="py-1">
                                 <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-[var(--text-secondary)] hover:bg-white/[0.04] hover:text-white font-medium transition-colors cursor-pointer">
                                     <x-lucide-user class="w-4 h-4" />
-                                    Mening profilim
+                                    {{ __('nav.my_profile') }}
                                 </a>
                             </div>
 
@@ -972,7 +1022,7 @@
                                 <button @click="logoutModalOpen = true; profileOpen = false" type="button"
                                     class="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm font-semibold text-[var(--accent-hover)] hover:bg-[var(--accent-soft)] transition-colors cursor-pointer">
                                     <x-lucide-log-out class="w-4 h-4" />
-                                    Chiqish
+                                    {{ __('common.logout') }}
                                 </button>
                             </div>
                         </div>
@@ -1030,10 +1080,10 @@
                     {{-- Body --}}
                     <div class="flex-1 min-w-0 pt-0.5">
                         <p class="text-sm font-bold text-white tracking-tight">
-                            @if($toastType === 'success') Muvaffaqiyat
-                            @elseif($toastType === 'error') Xatolik
-                            @elseif($toastType === 'warning') Ogohlantirish
-                            @else Ma'lumot
+                            @if($toastType === 'success') {{ __('toast.success') }}
+                            @elseif($toastType === 'error') {{ __('toast.error') }}
+                            @elseif($toastType === 'warning') {{ __('toast.warning') }}
+                            @else {{ __('toast.info') }}
                             @endif
                         </p>
                         <p class="text-xs text-[var(--text-secondary)] mt-0.5 leading-relaxed">{{ $toastMessage }}</p>
@@ -1067,8 +1117,8 @@
 
                 <footer class="px-4 sm:px-8 pb-6 pt-2">
                     <div class="max-w-[100rem] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[var(--text-muted)] border-t border-[var(--border-subtle)] pt-4 cursor-default">
-                        <p>© {{ date('Y') }} MarketingPro — Barcha huquqlar himoyalangan.</p>
-                        <p class="font-mono">v2.0</p>
+                        <p>© {{ date('Y') }} MarketingPro — {{ __('common.rights') }}</p>
+                        <p class="font-mono">v3.0</p>
                     </div>
                 </footer>
             </main>

@@ -157,7 +157,7 @@
                 <div class="flex items-start justify-between">
                     <div>
                         <p class="text-xs font-semibold uppercase tracking-widest text-[var(--text-muted)]">MarketingPro</p>
-                        <p class="mt-2 text-lg font-extrabold text-white">v2.0</p>
+                        <p class="mt-2 text-lg font-extrabold text-white">v3.0</p>
                     </div>
                     <div class="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden border border-[var(--border-strong)] bg-white/5 p-1">
                         <img src="{{ asset('/images/logo.png') }}" alt="MarketingPro" class="w-full h-full object-contain">

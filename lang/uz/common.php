@@ -22,6 +22,8 @@ return [
     'all_statuses'   => 'Barcha holatlar',
     'yes'            => 'Ha',
 
+    'collapse'       => 'Yopish',
+    'expand'         => 'Ochish',
     'language'       => 'Til',
     'theme_toggle'   => 'Yorug\'/qorong\'i rejim',
 
@@ -34,4 +36,5 @@ return [
     'are_you_sure'   => 'Siz haqiqatan ham o\'chirmoqchimisiz',
 
     'currency'       => 'so\'m',
+    'rights'         => 'Barcha huquqlar himoyalangan.',
 ];
