@@ -38,38 +38,38 @@
     <style>
         :root {
             /* ── Laravel Default v1.0 — Navy × Blue ── */
-            --bg-base:    #0d1117;
+            --bg-base: #0d1117;
             --bg-surface: #161d2c;
-            --bg-raised:  #1d2535;
+            --bg-raised: #1d2535;
             --bg-overlay: #252f42;
 
             --border-subtle: rgba(148, 163, 184, 0.08);
             --border-strong: rgba(148, 163, 184, 0.15);
 
-            --text-primary:   #e2e8f0;
+            --text-primary: #e2e8f0;
             --text-secondary: #94a3b8;
-            --text-muted:     #475569;
+            --text-muted: #475569;
 
             /* Blue accent */
-            --accent:       #3b82f6;
+            --accent: #3b82f6;
             --accent-hover: #60a5fa;
-            --accent-deep:  #2563eb;
-            --accent-alt:   #818cf8;
+            --accent-deep: #2563eb;
+            --accent-alt: #818cf8;
 
-            --accent-soft:   rgba(59, 130, 246, 0.10);
+            --accent-soft: rgba(59, 130, 246, 0.10);
             --accent-border: rgba(59, 130, 246, 0.24);
-            --accent-glow:   rgba(59, 130, 246, 0.28);
+            --accent-glow: rgba(59, 130, 246, 0.28);
 
             --success: #10b981;
             --warning: #f59e0b;
-            --info:    #06b6d4;
+            --info: #06b6d4;
 
             /* Dimensions */
             --radius-sm: 0.375rem;
             --radius-md: 0.625rem;
             --radius-lg: 1rem;
             --sidebar-w: 17.5rem;
-            --header-h:  4.5rem;
+            --header-h: 4.5rem;
 
             /* Animation */
             --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -423,22 +423,22 @@
 
         /* 1 ─ CSS variable overrides */
         html.light {
-            --bg-base:    #f8faff;
+            --bg-base: #f8faff;
             --bg-surface: #ffffff;
-            --bg-raised:  #f1f5f9;
+            --bg-raised: #f1f5f9;
             --bg-overlay: #e2e8f0;
             --border-subtle: rgba(15, 23, 42, 0.07);
             --border-strong: rgba(15, 23, 42, 0.13);
-            --text-primary:   #0f172a;
+            --text-primary: #0f172a;
             --text-secondary: #334155;
-            --text-muted:     #94a3b8;
-            --accent:       #2563eb;
+            --text-muted: #94a3b8;
+            --accent: #2563eb;
             --accent-hover: #3b82f6;
-            --accent-deep:  #1d4ed8;
-            --accent-alt:   #7c3aed;
-            --accent-soft:   rgba(37, 99, 235, 0.08);
+            --accent-deep: #1d4ed8;
+            --accent-alt: #7c3aed;
+            --accent-soft: rgba(37, 99, 235, 0.08);
             --accent-border: rgba(37, 99, 235, 0.20);
-            --accent-glow:   rgba(37, 99, 235, 0.22);
+            --accent-glow: rgba(37, 99, 235, 0.22);
         }
 
         /* 2 ─ Body */

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 // Home — landing page
 Route::get('/', function () {
-    return view('landing');
+    return redirect()->route('dashboard.index');
 })->name('home');
 
 // Guest-only routes
