@@ -1,0 +1,55 @@
+<?php
+
+return [
+    'title'         => 'Mijozlar',
+    'new'           => 'Yangi mijoz',
+    'create_title'  => 'Yangi mijoz qo\'shish',
+    'create_sub'    => 'Mijoz ma\'lumotlarini kiriting',
+    'edit_sub'      => 'Mijoz ma\'lumotlarini yangilang',
+    'back'          => 'Mijozlarga qaytish',
+    'search_ph'     => 'Mijoz izlash...',
+    'empty_title'   => 'Mijozlar topilmadi',
+    'empty_text'    => 'Birinchi mijozni qo\'shing',
+    'add_btn'       => 'Mijoz qo\'shish',
+    'delete_title'  => 'Mijozni o\'chirish',
+
+    'col_client'    => 'Mijoz',
+    'col_source'    => 'Manba',
+    'col_status'    => 'Holat',
+    'col_campaign'  => 'Kampaniya',
+    'col_value'     => 'Qiymat',
+
+    'name'          => 'Ism',
+    'company'       => 'Kompaniya',
+    'email'         => 'Email',
+    'phone'         => 'Telefon',
+    'source'        => 'Manba',
+    'status'        => 'Holat',
+    'value'         => 'Potensial qiymat (so\'m)',
+    'campaign'      => 'Kampaniya',
+    'assignee'      => 'Mas\'ul xodim',
+    'notes'         => 'Izohlar',
+    'name_ph'       => 'Ism Familiya',
+    'company_ph'    => 'Kompaniya nomi',
+    'notes_ph'      => 'Mijoz haqida qo\'shimcha ma\'lumot...',
+
+    'created'       => 'Mijoz ":name" qo\'shildi.',
+    'updated'       => 'Mijoz ":name" yangilandi.',
+    'deleted'       => 'Mijoz ":name" o\'chirildi.',
+
+    'status_options' => [
+        'new'       => 'Yangi',
+        'contacted' => 'Aloqada',
+        'qualified' => 'Saralangan',
+        'won'       => 'Yutilgan',
+        'lost'      => 'Yo\'qotilgan',
+    ],
+    'source_options' => [
+        'website'  => 'Website',
+        'social'   => 'Ijtimoiy tarmoq',
+        'referral' => 'Tavsiya',
+        'ads'      => 'Reklama',
+        'event'    => 'Tadbir',
+        'other'    => 'Boshqa',
+    ],
+];
