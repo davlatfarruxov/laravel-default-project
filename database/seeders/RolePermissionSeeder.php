@@ -16,20 +16,32 @@ final class RolePermissionSeeder extends Seeder
         'users'         => ['view', 'create', 'edit', 'delete'],
     ];
 
-    // ── Manager: full access except delete ────────────────────────────────────
+    // ── Marketing (v2.0) ──────────────────────────────────────────────────────
+    private const MARKETING_PERMISSIONS = [
+        'leads'      => ['view', 'create', 'edit', 'delete'],
+        'campaigns'  => ['view', 'create', 'edit', 'delete'],
+        'analytics'  => ['view'],
+    ];
+
+    // ── Manager: marketing access, no platform/delete ─────────────────────────
     private const MANAGER_PERMISSIONS = [
         'dashboard'  => ['view'],
+        'leads'      => ['view', 'create', 'edit'],
+        'campaigns'  => ['view'],
+        'analytics'  => ['view'],
     ];
 
     public function run(): void
     {
         app()['cache']->forget(config('permission.cache.key'));
 
-        // ── 1. Platform permissions → SuperAdmin ──────────────────────────────
-        $platformNames = $this->createPermissions(self::PLATFORM_PERMISSIONS);
+        // ── 1. Platform + Marketing permissions → SuperAdmin ──────────────────
+        $platformNames  = $this->createPermissions(self::PLATFORM_PERMISSIONS);
+        $marketingNames = $this->createPermissions(self::MARKETING_PERMISSIONS);
+        $allNames       = array_merge($platformNames, $marketingNames);
 
         $superadmin = Role::firstOrCreate(['name' => 'superadmin', 'guard_name' => 'web']);
-        $superadmin->syncPermissions($platformNames);
+        $superadmin->syncPermissions($allNames);
 
         // ── 3. Manager ────────────────────────────────────────────────────────
         $managerNames = $this->createPermissions(self::MANAGER_PERMISSIONS);
@@ -38,7 +50,7 @@ final class RolePermissionSeeder extends Seeder
 
         // ── 7. Default SuperAdmin user ────────────────────────────────────────
         $adminUser = User::withoutGlobalScopes()->firstOrCreate(
-            ['email' => 'admin@vexa.uz'],
+            ['email' => 'admin@marketingpro.uz'],
             [
                 'name'     => 'Super Admin',
                 'password' => bcrypt('B7654321'),
@@ -47,9 +59,9 @@ final class RolePermissionSeeder extends Seeder
         $adminUser->syncRoles(['superadmin']);
 
         $this->command?->info('✓ Permissions and roles seeded.');
-        $this->command?->info('  superadmin  → ' . count($platformNames) . ' permissions');
+        $this->command?->info('  superadmin  → ' . count($allNames) . ' permissions');
         $this->command?->info('  manager     → ' . count($managerNames) . ' permissions');
-        $this->command?->info('  Login: admin@vexa.uz / B7654321');
+        $this->command?->info('  Login: admin@marketingpro.uz / B7654321');
     }
 
     private function createPermissions(array $config): array

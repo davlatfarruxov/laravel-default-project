@@ -11,7 +11,7 @@
     {{-- Apply saved theme immediately to prevent FOUC --}}
     <script>
         (function() {
-            if (localStorage.getItem('laravel_default_theme') === 'light') {
+            if (localStorage.getItem('marketingpro_theme') === 'light') {
                 document.documentElement.classList.add('light');
                 document.addEventListener('DOMContentLoaded', function() {
                     var m = document.getElementById('theme-color-meta');

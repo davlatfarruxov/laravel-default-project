@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LeadController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
@@ -28,6 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.show');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+
+    // Marketing: Leads, Campaigns & Analytics
+    Route::resource('leads', LeadController::class)->except(['show']);
+    Route::resource('campaigns', CampaignController::class)->except(['show']);
+    Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
 
     // Platform: Roles & Users
     Route::resource('roles', RoleController::class)->except(['show']);

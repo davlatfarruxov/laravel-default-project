@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '500 · Laravel Default')
+@section('title', '500 · MarketingPro')
 
 @section('content')
 <div class="min-h-screen w-full flex items-center justify-center relative overflow-hidden" style="background: var(--bg-base);">

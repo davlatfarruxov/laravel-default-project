@@ -11,7 +11,7 @@
     {{-- Apply saved theme ASAP to prevent flash of wrong theme --}}
     <script>
         (function() {
-            if (localStorage.getItem('laravel_default_theme') === 'light') {
+            if (localStorage.getItem('marketingpro_theme') === 'light') {
                 document.documentElement.classList.add('light');
                 document.addEventListener('DOMContentLoaded', function() {
                     var m = document.getElementById('theme-color-meta');
@@ -21,7 +21,7 @@
         })();
     </script>
 
-    <title>@yield('title', 'Dashboard') · Laravel Default</title>
+    <title>@yield('title', 'Dashboard') · MarketingPro</title>
 
     {{-- Font: Inter — clean professional UI font for education platforms --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -639,10 +639,10 @@
             logoutModalOpen: false,
             notificationsOpen: false,
             profileOpen: false,
-            sidebarOpen: localStorage.getItem('laravel_default_sidebar') !== 'closed',
+            sidebarOpen: localStorage.getItem('marketingpro_sidebar') !== 'closed',
             toggleSidebar() {
                 this.sidebarOpen = !this.sidebarOpen;
-                localStorage.setItem('laravel_default_sidebar', this.sidebarOpen ? 'open' : 'closed');
+                localStorage.setItem('marketingpro_sidebar', this.sidebarOpen ? 'open' : 'closed');
             }
         }"
         class="flex h-dvh w-full relative"
@@ -714,10 +714,10 @@
             <div class="sidebar-logo-container h-[var(--header-h)] flex items-center px-5 border-b border-[var(--border-subtle)] flex-shrink-0 transition-all duration-300">
                 <a href="{{ route('dashboard.index') }}" class="sidebar-logo-link flex items-center gap-3 group min-w-0 cursor-pointer transition-all duration-300">
                     <div class="w-9 h-9 flex items-center justify-center transition-transform duration-300 group-hover:scale-105 overflow-hidden flex-shrink-0 border border-[var(--border-strong)] rounded-xl bg-white/5 p-0.5 shadow-sm">
-                        <img src="{{ asset('/images/logo.png') }}" alt="Laravel Default Logo" class="w-full h-full object-contain">
+                        <img src="{{ asset('/images/logo.png') }}" alt="MarketingPro Logo" class="w-full h-full object-contain">
                     </div>
                     <span class="sidebar-logo-text font-extrabold text-lg tracking-tight truncate" style="background: linear-gradient(135deg, var(--accent-hover), var(--accent-alt)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-                        Laravel Default
+                        MarketingPro
                     </span>
                 </a>
                 <button @click="mobileMenuOpen = false" class="md:hidden ml-auto text-[var(--text-muted)] hover:text-white p-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer" aria-label="Close menu">
@@ -739,6 +739,39 @@
                         </a>
                     </div>
                 </div>
+
+                {{-- Marketing --}}
+                @canany(['leads.view', 'campaigns.view', 'analytics.view'])
+                <div>
+                    <h3 class="nav-heading">Marketing</h3>
+                    <div class="space-y-1">
+                        @can('leads.view')
+                        <a href="{{ route('leads.index') }}"
+                            title="Mijozlar"
+                            class="nav-link {{ request()->routeIs('leads.*') ? 'active' : '' }}">
+                            <x-lucide-contact class="nav-icon" />
+                            <span class="sidebar-label">Mijozlar</span>
+                        </a>
+                        @endcan
+                        @can('campaigns.view')
+                        <a href="{{ route('campaigns.index') }}"
+                            title="Kampaniyalar"
+                            class="nav-link {{ request()->routeIs('campaigns.*') ? 'active' : '' }}">
+                            <x-lucide-megaphone class="nav-icon" />
+                            <span class="sidebar-label">Kampaniyalar</span>
+                        </a>
+                        @endcan
+                        @can('analytics.view')
+                        <a href="{{ route('analytics.index') }}"
+                            title="Tahlil"
+                            class="nav-link {{ request()->routeIs('analytics.*') ? 'active' : '' }}">
+                            <x-lucide-bar-chart-3 class="nav-icon" />
+                            <span class="sidebar-label">Tahlil</span>
+                        </a>
+                        @endcan
+                    </div>
+                </div>
+                @endcanany
 
                 {{-- Administration --}}
                 @canany(['roles.view', 'users.view'])
@@ -775,7 +808,7 @@
                     </div>
                     <div class="sidebar-user-info min-w-0 flex-1">
                         <p class="text-sm font-semibold text-white truncate leading-tight">{{ auth()->user()->name ?? 'Admin' }}</p>
-                        <p class="text-xs text-[var(--text-muted)] truncate">{{ auth()->user()->email ?? 'admin@vexa.uz' }}</p>
+                        <p class="text-xs text-[var(--text-muted)] truncate">{{ auth()->user()->email ?? 'admin@marketingpro.uz' }}</p>
                     </div>
                     <button @click="logoutModalOpen = true" type="button"
                         class="sidebar-logout-btn p-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--accent-hover)] hover:bg-[var(--accent-soft)] transition-colors flex-shrink-0 cursor-pointer"
@@ -877,7 +910,7 @@
                                     </div>
                                     <div class="min-w-0">
                                         <p class="text-sm text-gray-200 font-medium group-hover:text-white transition-colors">Tizim yangilanishi mavjud</p>
-                                        <p class="text-xs text-[var(--text-muted)] mt-1">Yangi versiya: v1.0 — o'zgarishlarni ko'ring.</p>
+                                        <p class="text-xs text-[var(--text-muted)] mt-1">Yangi versiya: v2.0 — o'zgarishlarni ko'ring.</p>
                                         <p class="text-[0.68rem] text-[var(--text-muted)] mt-1.5 font-mono">1 soat oldin</p>
                                     </div>
                                 </a>
@@ -922,7 +955,7 @@
 
                             <div class="px-4 py-3 border-b border-[var(--border-subtle)]">
                                 <p class="text-sm font-bold text-white truncate">{{ auth()->user()->name ?? 'Admin' }}</p>
-                                <p class="text-xs text-[var(--text-muted)] truncate mt-0.5">{{ auth()->user()->email ?? 'admin@vexa.uz' }}</p>
+                                <p class="text-xs text-[var(--text-muted)] truncate mt-0.5">{{ auth()->user()->email ?? 'admin@marketingpro.uz' }}</p>
                             </div>
 
                             <div class="py-1">
@@ -1031,8 +1064,8 @@
 
                 <footer class="px-4 sm:px-8 pb-6 pt-2">
                     <div class="max-w-[100rem] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[var(--text-muted)] border-t border-[var(--border-subtle)] pt-4 cursor-default">
-                        <p>© {{ date('Y') }} Laravel Default — Barcha huquqlar himoyalangan.</p>
-                        <p class="font-mono">v1.0</p>
+                        <p>© {{ date('Y') }} MarketingPro — Barcha huquqlar himoyalangan.</p>
+                        <p class="font-mono">v2.0</p>
                     </div>
                 </footer>
             </main>
@@ -1044,7 +1077,7 @@
         function toggleTheme() {
             var html = document.documentElement;
             var isLight = html.classList.toggle('light');
-            localStorage.setItem('laravel_default_theme', isLight ? 'light' : 'dark');
+            localStorage.setItem('marketingpro_theme', isLight ? 'light' : 'dark');
             var meta = document.getElementById('theme-color-meta');
             if (meta) meta.content = isLight ? '#f0f2f7' : '#0b0d12';
         }
