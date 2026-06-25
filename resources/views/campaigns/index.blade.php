@@ -1,8 +1,8 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Kampaniyalar')
-@section('breadcrumb', 'Marketing')
-@section('header_title', 'Kampaniyalar')
+@section('title', __('campaigns.title'))
+@section('breadcrumb', __('nav.marketing'))
+@section('header_title', __('campaigns.title'))
 
 @section('content')
 @php
@@ -13,14 +13,12 @@
         'direction' => ($sort === $col && $direction === 'asc') ? 'desc' : 'asc',
         'page' => 1,
     ]);
-    $channelLabels = ['email' => 'Email', 'social' => 'Ijtimoiy', 'seo' => 'SEO', 'ppc' => 'PPC', 'sms' => 'SMS', 'event' => 'Tadbir'];
     $statusStyles = [
         'draft'     => 'bg-white/5 text-[var(--text-secondary)] border border-[var(--border-strong)]',
         'active'    => 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25',
         'paused'    => 'bg-amber-500/10 text-amber-400 border border-amber-500/25',
         'completed' => 'bg-[var(--accent-soft)] text-[var(--accent-hover)] border border-[var(--accent-border)]',
     ];
-    $statusLabels = ['draft' => 'Qoralama', 'active' => 'Faol', 'paused' => 'To\'xtatilgan', 'completed' => 'Tugatilgan'];
 @endphp
 <div x-data="{ deleteModalOpen: false, deleteUrl: '', deleteName: '' }">
 
@@ -47,22 +45,22 @@
                 </div>
 
                 <div class="mt-5 text-center">
-                    <h3 class="text-xl font-bold text-white tracking-tight">Kampaniyani o'chirish</h3>
+                    <h3 class="text-xl font-bold text-white tracking-tight">{{ __('campaigns.delete_title') }}</h3>
                     <p class="mt-2 text-sm text-[var(--text-secondary)] leading-relaxed">
-                        Siz haqiqatan ham o'chirmoqchimisiz
+                        {{ __('common.are_you_sure') }}
                         <span class="font-semibold text-white" x-text='"\"" + deleteName + "\""'></span>?
-                        Bu amalni qaytarib bo'lmaydi.
+                        {{ __('common.delete_warning') }}
                     </p>
                 </div>
 
                 <div class="mt-7 flex flex-col sm:flex-row gap-3">
-                    <button type="button" @click="deleteModalOpen = false" class="btn-secondary flex-1">Bekor qilish</button>
+                    <button type="button" @click="deleteModalOpen = false" class="btn-secondary flex-1">{{ __('common.cancel') }}</button>
                     <form :action="deleteUrl" method="POST" class="flex-1">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="w-full inline-flex items-center justify-center gap-2 px-5 py-[0.625rem] rounded-[var(--radius-md)] text-sm font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-hover)] transition-colors shadow-lg shadow-[var(--accent-glow)] cursor-pointer">
                             <x-lucide-trash-2 class="w-4 h-4" />
-                            O'chirish
+                            {{ __('common.delete') }}
                         </button>
                     </form>
                 </div>
@@ -74,17 +72,17 @@
         <form method="GET" action="{{ request()->url() }}" class="flex items-center gap-2 flex-wrap">
             <div class="relative">
                 <x-lucide-search class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--text-muted)] pointer-events-none" />
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Kampaniya izlash..."
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('campaigns.search_ph') }}"
                     class="pl-11 pr-4 py-2 text-sm rounded-[var(--radius-md)] bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent)] w-56 transition-colors">
             </div>
             <select name="status" onchange="this.form.submit()" class="py-2 px-3 text-sm rounded-[var(--radius-md)] bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-white focus:outline-none focus:border-[var(--accent)] cursor-pointer">
-                <option value="">Barcha holatlar</option>
-                @foreach($statusLabels as $key => $label)
+                <option value="">{{ __('common.all_statuses') }}</option>
+                @foreach(__('campaigns.status_options') as $key => $label)
                 <option value="{{ $key }}" {{ request('status') === $key ? 'selected' : '' }}>{{ $label }}</option>
                 @endforeach
             </select>
             @if(request('search') || request('status'))
-            <a href="{{ request()->url() }}" class="p-2 rounded-lg text-[var(--text-muted)] hover:text-white hover:bg-white/5 transition-colors" title="Tozalash">
+            <a href="{{ request()->url() }}" class="p-2 rounded-lg text-[var(--text-muted)] hover:text-white hover:bg-white/5 transition-colors" title="{{ __('common.clear') }}">
                 <x-lucide-x class="w-4 h-4" />
             </a>
             @endif
@@ -93,7 +91,7 @@
         @can('campaigns.create')
         <a href="{{ route('campaigns.create') }}" class="btn-primary self-start sm:self-auto">
             <x-lucide-plus class="w-4 h-4" />
-            Yangi kampaniya
+            {{ __('campaigns.new') }}
         </a>
         @endcan
     </div>
@@ -104,19 +102,19 @@
                 <thead>
                     <tr class="border-b border-[var(--border-subtle)]" style="background: rgba(255,255,255,0.01);">
                         <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
-                            <a href="{{ $sortUrl('name') }}" class="inline-flex items-center gap-1 hover:text-white transition-colors {{ $sort === 'name' ? 'text-white' : '' }}">Kampaniya
+                            <a href="{{ $sortUrl('name') }}" class="inline-flex items-center gap-1 hover:text-white transition-colors {{ $sort === 'name' ? 'text-white' : '' }}">{{ __('campaigns.col_campaign') }}
                                 @if($sort === 'name') <x-lucide-chevron-up class="w-3 h-3 {{ $direction === 'desc' ? 'rotate-180' : '' }}" /> @else <x-lucide-chevrons-up-down class="w-3 h-3 opacity-40" /> @endif
                             </a>
                         </th>
-                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Kanal</th>
-                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Holat</th>
+                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">{{ __('campaigns.col_channel') }}</th>
+                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">{{ __('campaigns.col_status') }}</th>
                         <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
-                            <a href="{{ $sortUrl('budget') }}" class="inline-flex items-center gap-1 hover:text-white transition-colors {{ $sort === 'budget' ? 'text-white' : '' }}">Byudjet
+                            <a href="{{ $sortUrl('budget') }}" class="inline-flex items-center gap-1 hover:text-white transition-colors {{ $sort === 'budget' ? 'text-white' : '' }}">{{ __('campaigns.col_budget') }}
                                 @if($sort === 'budget') <x-lucide-chevron-up class="w-3 h-3 {{ $direction === 'desc' ? 'rotate-180' : '' }}" /> @else <x-lucide-chevrons-up-down class="w-3 h-3 opacity-40" /> @endif
                             </a>
                         </th>
-                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Mijozlar</th>
-                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] text-right">Amallar</th>
+                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">{{ __('campaigns.col_leads') }}</th>
+                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] text-right">{{ __('common.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[var(--border-subtle)] text-sm">
@@ -129,19 +127,19 @@
                             </p>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="badge badge-accent">{{ $channelLabels[$campaign->channel] ?? $campaign->channel }}</span>
+                            <span class="badge badge-accent">{{ __('campaigns.channel_options.'.$campaign->channel) }}</span>
                         </td>
                         <td class="px-6 py-4">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide {{ $statusStyles[$campaign->status] }}">
-                                {{ $statusLabels[$campaign->status] }}
+                                {{ __('campaigns.status_options.'.$campaign->status) }}
                             </span>
                         </td>
                         <td class="px-6 py-4">
                             <div class="text-sm text-white font-semibold">{{ number_format($campaign->budget, 0, '.', ' ') }}</div>
                             <div class="mt-1.5 h-1.5 w-28 rounded-full bg-white/10 overflow-hidden">
-                                <div class="h-full rounded-full" style="width: {{ $campaign->budget_usage }}%; background: linear-gradient(90deg, var(--accent-hover), var(--accent-alt));"></div>
+                                <div class="h-full rounded-full" style="width: {{ $campaign->budget_usage }}%; background: var(--accent-gradient);"></div>
                             </div>
-                            <div class="text-[0.65rem] text-[var(--text-muted)] mt-1">{{ number_format($campaign->spent, 0, '.', ' ') }} sarflandi</div>
+                            <div class="text-[0.65rem] text-[var(--text-muted)] mt-1">{{ __('campaigns.spent', ['amount' => number_format($campaign->spent, 0, '.', ' ')]) }}</div>
                         </td>
                         <td class="px-6 py-4">
                             <span class="inline-flex items-center gap-1.5 text-sm text-[var(--text-secondary)]">
@@ -153,14 +151,14 @@
                             <div class="inline-flex items-center gap-1">
                                 @can('campaigns.edit')
                                 <a href="{{ route('campaigns.edit', $campaign) }}"
-                                    class="p-2 rounded-lg text-[var(--text-muted)] hover:text-blue-400 hover:bg-blue-500/10 transition-colors" title="Tahrirlash">
+                                    class="p-2 rounded-lg text-[var(--text-muted)] hover:text-amber-400 hover:bg-amber-500/10 transition-colors" title="{{ __('common.edit') }}">
                                     <x-lucide-pencil class="w-4 h-4" />
                                 </a>
                                 @endcan
                                 @can('campaigns.delete')
                                 <button type="button"
                                     @click="deleteUrl = @js(route('campaigns.destroy', $campaign)); deleteName = @js($campaign->name); deleteModalOpen = true"
-                                    class="p-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--accent-soft)] transition-colors" title="O'chirish">
+                                    class="p-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--accent-soft)] transition-colors" title="{{ __('common.delete') }}">
                                     <x-lucide-trash-2 class="w-4 h-4" />
                                 </button>
                                 @endcan
@@ -174,12 +172,12 @@
                                 <div class="w-12 h-12 rounded-2xl flex items-center justify-center" style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle);">
                                     <x-lucide-megaphone class="w-6 h-6 text-[var(--text-muted)]" />
                                 </div>
-                                <p class="text-sm font-semibold text-[var(--text-secondary)]">Kampaniyalar topilmadi</p>
-                                <p class="text-xs text-[var(--text-muted)]">Birinchi kampaniyangizni yarating</p>
+                                <p class="text-sm font-semibold text-[var(--text-secondary)]">{{ __('campaigns.empty_title') }}</p>
+                                <p class="text-xs text-[var(--text-muted)]">{{ __('campaigns.empty_text') }}</p>
                                 @can('campaigns.create')
                                 <a href="{{ route('campaigns.create') }}" class="btn-primary !text-xs !py-2 !px-4 mt-1">
                                     <x-lucide-plus class="w-3.5 h-3.5" />
-                                    Yangi kampaniya
+                                    {{ __('campaigns.new') }}
                                 </a>
                                 @endcan
                             </div>

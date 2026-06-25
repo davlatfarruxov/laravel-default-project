@@ -55,7 +55,7 @@ class CampaignController extends Controller
         $campaign = Campaign::create($data);
 
         return redirect()->route('campaigns.edit', $campaign)
-            ->with('success', "Kampaniya \"{$campaign->name}\" yaratildi.");
+            ->with('success', __('campaigns.created', ['name' => $campaign->name]));
     }
 
     public function edit(Campaign $campaign)
@@ -80,7 +80,7 @@ class CampaignController extends Controller
         $campaign->update($this->validateData($request));
 
         return redirect()->route('campaigns.edit', $campaign)
-            ->with('success', "Kampaniya \"{$campaign->name}\" yangilandi.");
+            ->with('success', __('campaigns.updated', ['name' => $campaign->name]));
     }
 
     public function destroy(Campaign $campaign)
@@ -93,7 +93,7 @@ class CampaignController extends Controller
         $campaign->delete();
 
         return redirect()->route('campaigns.index')
-            ->with('success', "Kampaniya \"{$name}\" o'chirildi.");
+            ->with('success', __('campaigns.deleted', ['name' => $name]));
     }
 
     private function validateData(Request $request): array

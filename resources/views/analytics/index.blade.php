@@ -1,20 +1,21 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Tahlil')
-@section('breadcrumb', 'Marketing')
-@section('header_title', 'Tahlil')
+@section('title', __('analytics.title'))
+@section('breadcrumb', __('nav.marketing'))
+@section('header_title', __('analytics.title'))
 
 @section('content')
 @php
-    $statusLabels  = ['new' => 'Yangi', 'contacted' => 'Aloqada', 'qualified' => 'Saralangan', 'won' => 'Yutilgan', 'lost' => 'Yo\'qotilgan'];
-    $sourceLabels  = ['website' => 'Website', 'social' => 'Ijtimoiy', 'referral' => 'Tavsiya', 'ads' => 'Reklama', 'event' => 'Tadbir', 'other' => 'Boshqa'];
-    $channelLabels = ['email' => 'Email', 'social' => 'Ijtimoiy', 'seo' => 'SEO', 'ppc' => 'PPC', 'sms' => 'SMS', 'event' => 'Tadbir'];
+    $statusLabelList  = array_map(fn($k) => __('leads.status_options.'.$k), array_keys($leadsByStatus));
+    $sourceLabelList  = array_map(fn($k) => __('leads.source_options.'.$k), array_keys($leadsBySource));
+    $channelLabelList = array_map(fn($k) => __('campaigns.channel_options.'.$k), array_keys($budgetByChannel));
 
-    $statusLabelList  = array_map(fn($k) => $statusLabels[$k] ?? $k, array_keys($leadsByStatus));
-    $sourceLabelList  = array_map(fn($k) => $sourceLabels[$k] ?? $k, array_keys($leadsBySource));
-    $channelLabelList = array_map(fn($k) => $channelLabels[$k] ?? $k, array_keys($budgetByChannel));
-
-    $funnelLabels = ['new' => 'Yangi mijozlar', 'contacted' => 'Aloqaga chiqilgan', 'qualified' => 'Saralangan', 'won' => 'Bitim yopildi'];
+    $funnelLabels = [
+        'new'       => __('analytics.funnel_new'),
+        'contacted' => __('analytics.funnel_contacted'),
+        'qualified' => __('analytics.funnel_qualified'),
+        'won'       => __('analytics.funnel_won'),
+    ];
     $funnelMax = max(1, $funnel['new']);
 @endphp
 
@@ -24,12 +25,12 @@
     <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         @php
             $kpis = [
-                ['Jami mijozlar', number_format($totalLeads, 0, '.', ' '), $wonLeads.' yutilgan', 'contact', 'var(--accent)'],
-                ['Konversiya', $conversionRate.'%', 'won / jami', 'trending-up', 'var(--success)'],
-                ['ROI', $roi.'%', 'investitsiya qaytimi', 'percent', 'var(--accent-alt)'],
-                ['Pipeline', number_format($pipelineValue, 0, '.', ' '), 'ochiq qiymat', 'git-branch', 'var(--info)'],
-                ['Kampaniyalar', $totalCampaigns, $activeCampaigns.' faol', 'megaphone', 'var(--accent)'],
-                ['Byudjet bandligi', $budgetUsage.'%', number_format($totalSpent, 0, '.', ' ').' sarf', 'wallet', 'var(--warning)'],
+                [__('analytics.kpi_total_leads'), number_format($totalLeads, 0, '.', ' '), __('analytics.won_suffix', ['count' => $wonLeads]), 'contact', 'var(--accent)'],
+                [__('analytics.kpi_conversion'), $conversionRate.'%', __('analytics.conv_sub'), 'trending-up', 'var(--success)'],
+                [__('analytics.kpi_roi'), $roi.'%', __('analytics.roi_sub'), 'percent', 'var(--accent-alt)'],
+                [__('analytics.kpi_pipeline'), number_format($pipelineValue, 0, '.', ' '), __('analytics.pipeline_sub'), 'git-branch', 'var(--info)'],
+                [__('analytics.kpi_campaigns'), $totalCampaigns, __('analytics.active_suffix', ['count' => $activeCampaigns]), 'megaphone', 'var(--accent)'],
+                [__('analytics.kpi_budget'), $budgetUsage.'%', __('analytics.budget_sub', ['amount' => number_format($totalSpent, 0, '.', ' ')]), 'wallet', 'var(--warning)'],
             ];
         @endphp
         @foreach($kpis as [$label, $value, $sub, $icon, $color])
@@ -50,12 +51,12 @@
     <div class="card p-6">
         <div class="flex items-center justify-between mb-1">
             <div>
-                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Mijozlar dinamikasi</h3>
-                <p class="text-xs text-[var(--text-muted)] mt-0.5">So'nggi 6 oy</p>
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider">{{ __('analytics.trend_title') }}</h3>
+                <p class="text-xs text-[var(--text-muted)] mt-0.5">{{ __('analytics.trend_sub') }}</p>
             </div>
             <div class="flex items-center gap-4 text-xs">
-                <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full" style="background: var(--accent);"></span><span class="text-[var(--text-secondary)]">Yangi</span></span>
-                <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full" style="background: var(--success);"></span><span class="text-[var(--text-secondary)]">Yutilgan</span></span>
+                <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full" style="background: var(--accent);"></span><span class="text-[var(--text-secondary)]">{{ __('analytics.legend_new') }}</span></span>
+                <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full" style="background: var(--success);"></span><span class="text-[var(--text-secondary)]">{{ __('analytics.legend_won') }}</span></span>
             </div>
         </div>
         <div class="relative" style="height: 300px;"><canvas id="chartTrend"></canvas></div>
@@ -64,11 +65,11 @@
     {{-- ====================== DOUGHNUTS ====================== --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="card p-6">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Mijozlar holati</h3>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4">{{ __('analytics.status_title') }}</h3>
             <div class="relative" style="height: 280px;"><canvas id="chartStatus"></canvas></div>
         </div>
         <div class="card p-6">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Mijozlar manbasi</h3>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4">{{ __('analytics.source_title') }}</h3>
             <div class="relative" style="height: 280px;"><canvas id="chartSource"></canvas></div>
         </div>
     </div>
@@ -77,7 +78,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Funnel --}}
         <div class="card p-6">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-5">Savdo voronkasi</h3>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-5">{{ __('analytics.funnel_title') }}</h3>
             <div class="space-y-3">
                 @foreach($funnel as $stage => $count)
                 @php
@@ -98,7 +99,7 @@
                 @endforeach
             </div>
             <div class="mt-5 pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs">
-                <span class="text-[var(--text-muted)]">Umumiy konversiya</span>
+                <span class="text-[var(--text-muted)]">{{ __('analytics.total_conversion') }}</span>
                 <span class="badge badge-success">{{ $conversionRate }}%</span>
             </div>
         </div>
@@ -106,10 +107,10 @@
         {{-- Budget vs Spent by channel --}}
         <div class="card p-6">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Kanal byudjeti</h3>
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider">{{ __('analytics.channel_title') }}</h3>
                 <div class="flex items-center gap-4 text-xs">
-                    <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm" style="background: var(--accent-alt);"></span><span class="text-[var(--text-secondary)]">Byudjet</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm" style="background: var(--accent);"></span><span class="text-[var(--text-secondary)]">Sarflangan</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm" style="background: var(--accent-alt);"></span><span class="text-[var(--text-secondary)]">{{ __('analytics.legend_budget') }}</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm" style="background: var(--accent);"></span><span class="text-[var(--text-secondary)]">{{ __('analytics.legend_spent') }}</span></span>
                 </div>
             </div>
             <div class="relative" style="height: 280px;"><canvas id="chartChannel"></canvas></div>
@@ -119,16 +120,16 @@
     {{-- ====================== TOP CAMPAIGNS ====================== --}}
     <div class="card overflow-hidden">
         <div class="px-6 py-4 border-b border-[var(--border-subtle)]">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Eng samarali kampaniyalar</h3>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">{{ __('analytics.top_title') }}</h3>
         </div>
         <div class="overflow-x-auto scroll-area">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="border-b border-[var(--border-subtle)]" style="background: rgba(255,255,255,0.01);">
-                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Kampaniya</th>
-                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Jami mijoz</th>
-                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Yutilgan</th>
-                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] w-1/3">Samaradorlik</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">{{ __('analytics.col_campaign') }}</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">{{ __('analytics.col_total') }}</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">{{ __('analytics.col_won') }}</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] w-1/3">{{ __('analytics.col_efficiency') }}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[var(--border-subtle)] text-sm">
@@ -148,7 +149,7 @@
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="4" class="px-6 py-12 text-center text-sm text-[var(--text-muted)]">Kampaniyalar yo'q — avval kampaniya va mijoz qo'shing</td></tr>
+                    <tr><td colspan="4" class="px-6 py-12 text-center text-sm text-[var(--text-muted)]">{{ __('analytics.top_empty') }}</td></tr>
                     @endforelse
                 </tbody>
             </table>
@@ -178,7 +179,7 @@
         Chart.defaults.font.family = "'Inter', sans-serif";
         Chart.defaults.font.size = 12;
 
-        const fmt = (n) => new Intl.NumberFormat('uz-UZ').format(n);
+        const fmt = (n) => new Intl.NumberFormat('{{ app()->getLocale() === 'en' ? 'en-US' : 'uz-UZ' }}').format(n);
 
         // helper: vertical gradient
         function grad(ctx, area, from, to) {
@@ -195,13 +196,13 @@
                 labels: @json($months),
                 datasets: [
                     {
-                        label: 'Yangi', data: @json($monthlyLeads),
+                        label: @json(__('analytics.legend_new')), data: @json($monthlyLeads),
                         borderColor: accent, tension: 0.4, borderWidth: 2.5,
                         pointBackgroundColor: accent, pointRadius: 3, pointHoverRadius: 5, fill: true,
                         backgroundColor: (c) => { const {ctx, chartArea} = c.chart; return chartArea ? grad(ctx, chartArea, accent + '55', accent + '00') : accent + '20'; },
                     },
                     {
-                        label: 'Yutilgan', data: @json($monthlyWon),
+                        label: @json(__('analytics.legend_won')), data: @json($monthlyWon),
                         borderColor: success, tension: 0.4, borderWidth: 2.5,
                         pointBackgroundColor: success, pointRadius: 3, pointHoverRadius: 5, fill: true,
                         backgroundColor: (c) => { const {ctx, chartArea} = c.chart; return chartArea ? grad(ctx, chartArea, success + '40', success + '00') : success + '20'; },
@@ -244,8 +245,8 @@
             data: {
                 labels: @json($channelLabelList),
                 datasets: [
-                    { label: 'Byudjet', data: @json(array_values($budgetByChannel)), backgroundColor: accentA, borderRadius: 6, maxBarThickness: 22 },
-                    { label: 'Sarflangan', data: @json(array_values($spentByChannel)), backgroundColor: accent, borderRadius: 6, maxBarThickness: 22 },
+                    { label: @json(__('analytics.legend_budget')), data: @json(array_values($budgetByChannel)), backgroundColor: accentA, borderRadius: 6, maxBarThickness: 22 },
+                    { label: @json(__('analytics.legend_spent')), data: @json(array_values($spentByChannel)), backgroundColor: accent, borderRadius: 6, maxBarThickness: 22 },
                 ],
             },
             options: {

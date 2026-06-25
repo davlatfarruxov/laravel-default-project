@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('has_nav', 'yes')
-@section('title', 'Kirish · MarketingPro')
+@section('title', __('auth.login_title') . ' · MarketingPro')
 
 @section('content')
 <div class="min-h-screen flex items-center justify-center p-4 sm:p-6 relative overflow-hidden bg-[var(--bg-base)]">
@@ -9,6 +9,16 @@
     <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div class="absolute top-[-10%] left-[-5%] w-[28rem] h-[28rem] rounded-full blur-[120px]" style="background: rgba(248, 112, 79, 0.08);"></div>
         <div class="absolute bottom-[-10%] right-[-5%] w-[32rem] h-[32rem] rounded-full blur-[140px]" style="background: rgba(245, 158, 11, 0.05);"></div>
+    </div>
+
+    {{-- Language switch --}}
+    <div class="absolute top-4 right-4 z-20 flex items-center gap-1 text-xs font-bold">
+        @foreach(['uz', 'en'] as $code)
+        <a href="{{ route('locale.switch', $code) }}"
+            class="px-2.5 py-1.5 rounded-lg uppercase transition-colors {{ app()->getLocale() === $code ? 'bg-[var(--accent-soft)] text-[var(--accent-hover)] border border-[var(--accent-border)]' : 'text-[var(--text-muted)] hover:text-white' }}">
+            {{ $code }}
+        </a>
+        @endforeach
     </div>
 
     <div class="card relative z-10 w-full max-w-md p-8 sm:p-10 space-y-7 shadow-2xl shadow-black/50 page-enter border border-[var(--border-strong)]">
@@ -19,10 +29,10 @@
             </a>
 
             <h2 class="mt-5 text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
-                Qaytib keldingiz
+                {{ __('auth.welcome_back') }}
             </h2>
             <p class="mt-2 text-sm text-[var(--text-secondary)]">
-                MarketingPro hisobingizga kiring
+                {{ __('auth.subtitle') }}
             </p>
         </div>
 
@@ -31,13 +41,13 @@
 
             <div>
                 <label for="email" class="block text-sm font-semibold text-[var(--text-primary)] mb-1.5">
-                    Email manzil
+                    {{ __('auth.email') }}
                 </label>
                 <input id="email" name="email" type="email" required
                     value="{{ old('email') }}"
                     autocomplete="email"
                     class="input @error('email') !border-[var(--accent)] !shadow-[0_0_0_3px_var(--accent-soft)] @enderror"
-                    placeholder="example@mail.com">
+                    placeholder="{{ __('auth.email_ph') }}">
 
                 @error('email')
                 <p class="mt-2 text-xs font-medium text-[var(--accent-alt)] flex items-center gap-1.5">
@@ -49,7 +59,7 @@
 
             <div x-data="{ showPassword: false }">
                 <label for="password" class="block text-sm font-semibold text-[var(--text-primary)] mb-1.5">
-                    Parol
+                    {{ __('auth.password') }}
                 </label>
                 <div class="relative">
                     <input id="password" name="password"
@@ -73,14 +83,14 @@
                     <input type="checkbox" name="remember"
                         class="w-4 h-4 rounded border-[var(--border-strong)] bg-[var(--bg-surface)] text-[var(--accent)] focus:ring-[var(--accent)] focus:ring-offset-0 focus:ring-offset-transparent cursor-pointer transition-colors">
                     <span class="text-[var(--text-secondary)] group-hover:text-white transition-colors">
-                        Eslab qolish
+                        {{ __('auth.remember') }}
                     </span>
                 </label>
             </div>
 
             <button type="submit" class="btn-primary w-full py-3 text-base mt-2">
                 <x-lucide-log-in class="w-5 h-5" />
-                Kirish
+                {{ __('auth.sign_in') }}
             </button>
         </form>
     </div>

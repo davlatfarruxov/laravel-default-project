@@ -1,8 +1,8 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Mijozlar')
-@section('breadcrumb', 'Marketing')
-@section('header_title', 'Mijozlar')
+@section('title', __('leads.title'))
+@section('breadcrumb', __('nav.marketing'))
+@section('header_title', __('leads.title'))
 
 @section('content')
 @php
@@ -14,14 +14,12 @@
         'page' => 1,
     ]);
     $statusStyles = [
-        'new'       => 'bg-blue-500/10 text-blue-400 border border-blue-500/25',
-        'contacted' => 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/25',
-        'qualified' => 'bg-amber-500/10 text-amber-400 border border-amber-500/25',
+        'new'       => 'bg-sky-500/10 text-sky-400 border border-sky-500/25',
+        'contacted' => 'bg-amber-500/10 text-amber-400 border border-amber-500/25',
+        'qualified' => 'bg-violet-500/10 text-violet-400 border border-violet-500/25',
         'won'       => 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25',
         'lost'      => 'bg-[var(--accent-soft)] text-[var(--accent-hover)] border border-[var(--accent-border)]',
     ];
-    $statusLabels = ['new' => 'Yangi', 'contacted' => 'Aloqada', 'qualified' => 'Saralangan', 'won' => 'Yutilgan', 'lost' => 'Yo\'qotilgan'];
-    $sourceLabels = ['website' => 'Website', 'social' => 'Ijtimoiy', 'referral' => 'Tavsiya', 'ads' => 'Reklama', 'event' => 'Tadbir', 'other' => 'Boshqa'];
 @endphp
 <div x-data="{ deleteModalOpen: false, deleteUrl: '', deleteName: '' }">
 
@@ -48,22 +46,22 @@
                 </div>
 
                 <div class="mt-5 text-center">
-                    <h3 class="text-xl font-bold text-white tracking-tight">Mijozni o'chirish</h3>
+                    <h3 class="text-xl font-bold text-white tracking-tight">{{ __('leads.delete_title') }}</h3>
                     <p class="mt-2 text-sm text-[var(--text-secondary)] leading-relaxed">
-                        Siz haqiqatan ham o'chirmoqchimisiz
+                        {{ __('common.are_you_sure') }}
                         <span class="font-semibold text-white" x-text='"\"" + deleteName + "\""'></span>?
-                        Bu amalni qaytarib bo'lmaydi.
+                        {{ __('common.delete_warning') }}
                     </p>
                 </div>
 
                 <div class="mt-7 flex flex-col sm:flex-row gap-3">
-                    <button type="button" @click="deleteModalOpen = false" class="btn-secondary flex-1">Bekor qilish</button>
+                    <button type="button" @click="deleteModalOpen = false" class="btn-secondary flex-1">{{ __('common.cancel') }}</button>
                     <form :action="deleteUrl" method="POST" class="flex-1">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="w-full inline-flex items-center justify-center gap-2 px-5 py-[0.625rem] rounded-[var(--radius-md)] text-sm font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-hover)] transition-colors shadow-lg shadow-[var(--accent-glow)] cursor-pointer">
                             <x-lucide-trash-2 class="w-4 h-4" />
-                            O'chirish
+                            {{ __('common.delete') }}
                         </button>
                     </form>
                 </div>
@@ -75,17 +73,17 @@
         <form method="GET" action="{{ request()->url() }}" class="flex items-center gap-2 flex-wrap">
             <div class="relative">
                 <x-lucide-search class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--text-muted)] pointer-events-none" />
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Mijoz izlash..."
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('leads.search_ph') }}"
                     class="pl-11 pr-4 py-2 text-sm rounded-[var(--radius-md)] bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent)] w-56 transition-colors">
             </div>
             <select name="status" onchange="this.form.submit()" class="py-2 px-3 text-sm rounded-[var(--radius-md)] bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-white focus:outline-none focus:border-[var(--accent)] cursor-pointer">
-                <option value="">Barcha holatlar</option>
-                @foreach($statusLabels as $key => $label)
+                <option value="">{{ __('common.all_statuses') }}</option>
+                @foreach(__('leads.status_options') as $key => $label)
                 <option value="{{ $key }}" {{ request('status') === $key ? 'selected' : '' }}>{{ $label }}</option>
                 @endforeach
             </select>
             @if(request('search') || request('status'))
-            <a href="{{ request()->url() }}" class="p-2 rounded-lg text-[var(--text-muted)] hover:text-white hover:bg-white/5 transition-colors" title="Tozalash">
+            <a href="{{ request()->url() }}" class="p-2 rounded-lg text-[var(--text-muted)] hover:text-white hover:bg-white/5 transition-colors" title="{{ __('common.clear') }}">
                 <x-lucide-x class="w-4 h-4" />
             </a>
             @endif
@@ -94,7 +92,7 @@
         @can('leads.create')
         <a href="{{ route('leads.create') }}" class="btn-primary self-start sm:self-auto">
             <x-lucide-user-plus class="w-4 h-4" />
-            Yangi mijoz
+            {{ __('leads.new') }}
         </a>
         @endcan
     </div>
@@ -105,19 +103,19 @@
                 <thead>
                     <tr class="border-b border-[var(--border-subtle)]" style="background: rgba(255,255,255,0.01);">
                         <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
-                            <a href="{{ $sortUrl('name') }}" class="inline-flex items-center gap-1 hover:text-white transition-colors {{ $sort === 'name' ? 'text-white' : '' }}">Mijoz
+                            <a href="{{ $sortUrl('name') }}" class="inline-flex items-center gap-1 hover:text-white transition-colors {{ $sort === 'name' ? 'text-white' : '' }}">{{ __('leads.col_client') }}
                                 @if($sort === 'name') <x-lucide-chevron-up class="w-3 h-3 {{ $direction === 'desc' ? 'rotate-180' : '' }}" /> @else <x-lucide-chevrons-up-down class="w-3 h-3 opacity-40" /> @endif
                             </a>
                         </th>
-                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Manba</th>
-                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Holat</th>
-                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Kampaniya</th>
+                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">{{ __('leads.col_source') }}</th>
+                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">{{ __('leads.col_status') }}</th>
+                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">{{ __('leads.col_campaign') }}</th>
                         <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
-                            <a href="{{ $sortUrl('value') }}" class="inline-flex items-center gap-1 hover:text-white transition-colors {{ $sort === 'value' ? 'text-white' : '' }}">Qiymat
+                            <a href="{{ $sortUrl('value') }}" class="inline-flex items-center gap-1 hover:text-white transition-colors {{ $sort === 'value' ? 'text-white' : '' }}">{{ __('leads.col_value') }}
                                 @if($sort === 'value') <x-lucide-chevron-up class="w-3 h-3 {{ $direction === 'desc' ? 'rotate-180' : '' }}" /> @else <x-lucide-chevrons-up-down class="w-3 h-3 opacity-40" /> @endif
                             </a>
                         </th>
-                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] text-right">Amallar</th>
+                        <th class="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] text-right">{{ __('common.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[var(--border-subtle)] text-sm">
@@ -139,11 +137,11 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="text-sm text-[var(--text-secondary)]">{{ $sourceLabels[$lead->source] ?? $lead->source }}</span>
+                            <span class="text-sm text-[var(--text-secondary)]">{{ __('leads.source_options.'.$lead->source) }}</span>
                         </td>
                         <td class="px-6 py-4">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide {{ $statusStyles[$lead->status] }}">
-                                {{ $statusLabels[$lead->status] }}
+                                {{ __('leads.status_options.'.$lead->status) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 text-[var(--text-secondary)] text-sm truncate max-w-[12rem]">
@@ -154,14 +152,14 @@
                             <div class="inline-flex items-center gap-1">
                                 @can('leads.edit')
                                 <a href="{{ route('leads.edit', $lead) }}"
-                                    class="p-2 rounded-lg text-[var(--text-muted)] hover:text-blue-400 hover:bg-blue-500/10 transition-colors" title="Tahrirlash">
+                                    class="p-2 rounded-lg text-[var(--text-muted)] hover:text-amber-400 hover:bg-amber-500/10 transition-colors" title="{{ __('common.edit') }}">
                                     <x-lucide-pencil class="w-4 h-4" />
                                 </a>
                                 @endcan
                                 @can('leads.delete')
                                 <button type="button"
                                     @click="deleteUrl = @js(route('leads.destroy', $lead)); deleteName = @js($lead->name); deleteModalOpen = true"
-                                    class="p-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--accent-soft)] transition-colors" title="O'chirish">
+                                    class="p-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--accent-soft)] transition-colors" title="{{ __('common.delete') }}">
                                     <x-lucide-trash-2 class="w-4 h-4" />
                                 </button>
                                 @endcan
@@ -175,12 +173,12 @@
                                 <div class="w-12 h-12 rounded-2xl flex items-center justify-center" style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle);">
                                     <x-lucide-contact class="w-6 h-6 text-[var(--text-muted)]" />
                                 </div>
-                                <p class="text-sm font-semibold text-[var(--text-secondary)]">Mijozlar topilmadi</p>
-                                <p class="text-xs text-[var(--text-muted)]">Birinchi mijozni qo'shing</p>
+                                <p class="text-sm font-semibold text-[var(--text-secondary)]">{{ __('leads.empty_title') }}</p>
+                                <p class="text-xs text-[var(--text-muted)]">{{ __('leads.empty_text') }}</p>
                                 @can('leads.create')
                                 <a href="{{ route('leads.create') }}" class="btn-primary !text-xs !py-2 !px-4 mt-1">
                                     <x-lucide-user-plus class="w-3.5 h-3.5" />
-                                    Yangi mijoz
+                                    {{ __('leads.new') }}
                                 </a>
                                 @endcan
                             </div>

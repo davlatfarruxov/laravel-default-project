@@ -56,7 +56,7 @@ class LeadController extends Controller
         $lead = Lead::create($this->validateData($request));
 
         return redirect()->route('leads.edit', $lead)
-            ->with('success', "Mijoz \"{$lead->name}\" qo'shildi.");
+            ->with('success', __('leads.created', ['name' => $lead->name]));
     }
 
     public function edit(Lead $lead)
@@ -77,7 +77,7 @@ class LeadController extends Controller
         $lead->update($this->validateData($request));
 
         return redirect()->route('leads.edit', $lead)
-            ->with('success', "Mijoz \"{$lead->name}\" yangilandi.");
+            ->with('success', __('leads.updated', ['name' => $lead->name]));
     }
 
     public function destroy(Lead $lead)
@@ -90,7 +90,7 @@ class LeadController extends Controller
         $lead->delete();
 
         return redirect()->route('leads.index')
-            ->with('success', "Mijoz \"{$name}\" o'chirildi.");
+            ->with('success', __('leads.deleted', ['name' => $name]));
     }
 
     private function formData(): array
