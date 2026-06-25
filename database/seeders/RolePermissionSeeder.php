@@ -31,6 +31,14 @@ final class RolePermissionSeeder extends Seeder
         'analytics'  => ['view'],
     ];
 
+    // ── User: oddiy foydalanuvchi — faqat ko'rish (read-only sahifalar) ───────
+    private const USER_PERMISSIONS = [
+        'dashboard'  => ['view'],
+        'leads'      => ['view'],
+        'campaigns'  => ['view'],
+        'analytics'  => ['view'],
+    ];
+
     public function run(): void
     {
         app()['cache']->forget(config('permission.cache.key'));
@@ -48,6 +56,11 @@ final class RolePermissionSeeder extends Seeder
         $manager = Role::firstOrCreate(['name' => 'manager', 'guard_name' => 'web']);
         $manager->syncPermissions($managerNames);
 
+        // ── 4. User (oddiy foydalanuvchi) ─────────────────────────────────────
+        $userNames = $this->createPermissions(self::USER_PERMISSIONS);
+        $userRole = Role::firstOrCreate(['name' => 'user', 'guard_name' => 'web']);
+        $userRole->syncPermissions($userNames);
+
         // ── 7. Default SuperAdmin user ────────────────────────────────────────
         $adminUser = User::withoutGlobalScopes()->firstOrCreate(
             ['email' => 'admin@marketingpro.uz'],
@@ -61,6 +74,7 @@ final class RolePermissionSeeder extends Seeder
         $this->command?->info('✓ Permissions and roles seeded.');
         $this->command?->info('  superadmin  → ' . count($allNames) . ' permissions');
         $this->command?->info('  manager     → ' . count($managerNames) . ' permissions');
+        $this->command?->info('  user        → ' . count($userNames) . ' permissions');
         $this->command?->info('  Login: admin@marketingpro.uz / B7654321');
     }
 

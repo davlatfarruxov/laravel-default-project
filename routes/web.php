@@ -4,6 +4,7 @@ use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\RoleController;
@@ -35,6 +36,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.show');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+
+    // Resources — barcha foydalanuvchilar uchun ochiq sahifalar
+    Route::get('/tips', [InfoController::class, 'tips'])->name('info.tips');
+    Route::get('/faq', [InfoController::class, 'faq'])->name('info.faq');
+    Route::get('/news', [InfoController::class, 'news'])->name('info.news');
 
     // Marketing: Leads, Campaigns & Analytics
     Route::resource('leads', LeadController::class)->except(['show']);
