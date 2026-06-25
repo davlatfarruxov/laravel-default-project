@@ -35,11 +35,11 @@ class AuthController extends Controller
 
             return redirect()
                 ->route('dashboard.index')
-                ->with('success', 'Muvaffaqiyatli kirdingiz!');
+                ->with('success', __('auth.login_success'));
         }
 
         return back()->withErrors([
-            'email' => 'Email yoki parol noto\'g\'ri.',
+            'email' => __('auth.failed'),
         ])->onlyInput('email');
     }
 
@@ -54,6 +54,6 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         // Redirect with translated logout message
-        return redirect('/')->with('success', 'Tizimdan muvaffaqiyatli chiqdingiz.');
+        return redirect('/')->with('success', __('auth.logout_success'));
     }
 }

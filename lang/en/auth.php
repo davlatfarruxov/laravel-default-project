@@ -1,8 +1,10 @@
 <?php
 
 return [
-    'failed'         => 'These credentials do not match our records.',
+    'failed'         => 'Email or password is incorrect.',
     'throttle'       => 'Too many login attempts. Please try again in :seconds seconds.',
+    'login_success'  => 'Signed in successfully!',
+    'logout_success' => 'You have signed out successfully.',
 
     'login_title'    => 'Sign in',
     'welcome_back'   => 'Welcome back',
